@@ -4,7 +4,9 @@ import {
   NavLink,
   Routes,
   Route,
-  useNavigate
+  useNavigate,
+  Outlet,
+  useParams,
 } from 'react-router-dom';
 const Todo = () => {
   return (
@@ -20,10 +22,24 @@ const Login = () => {
 const Register = () => {
   return <p>這是註冊頁面</p>;
 };
-const Logout = () =>{
+const Logout = () => {
   const navigate = useNavigate();
   return(<button type="button" onClick={ () => { navigate('/login') }}>Logout</button>)
-}
+};
+const Post = () => {
+  return( 
+    <>
+    <p>Post頁面</p>;
+    <Outlet />;
+    </>
+  )
+};
+
+const PostId = () => {
+  let params = useParams();
+  return <p>PostID: {params.postId}</p>;
+};
+
 function App() {
   return (
     <div className="container">
@@ -41,12 +57,21 @@ function App() {
           <NavLink to="/todo">
             <p>Todo 頁面</p>
           </NavLink>
+          <NavLink to="/post">
+            <p>Post 頁面</p>
+          </NavLink>
+          <NavLink to="/post/POSTID">
+            <p>Post 詳細頁面</p>
+          </NavLink>
         </div>
         {/* Routes, Route 練習區 */}
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} /> 
           <Route path="/todo" element={<Todo />} />  
+          <Route path="/post" element={<Post />}>
+            <Route path=":postId" element={<PostId />} />
+          </Route>
         </Routes>
         
         {/* 練習區 */}
